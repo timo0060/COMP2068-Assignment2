@@ -67,9 +67,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\images\banana.png" />
     <Content Include="assets\images\bar.png" />
     <Content Include="assets\images\bell.png" />
     <Content Include="assets\images\blank.png" />
+    <Content Include="assets\images\cherry.png" />
+    <Content Include="assets\images\grapes.png" />
+    <Content Include="assets\images\orange.png" />
+    <Content Include="assets\images\seven.png" />
     <Content Include="assets\images\Slot-Machine.png" />
     <Content Include="assets\images\spin.png" />
     <Content Include="css\game.css" />

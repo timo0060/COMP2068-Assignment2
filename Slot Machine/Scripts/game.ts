@@ -37,8 +37,8 @@ function initReel() {
         game.removeChild(reels[reel]);
 
         reels[reel] = new createjs.Bitmap("assets/images/" + initReelResult[reel] + ".png");
-        reels[reel].x = 120 + (reel * 148);
-        reels[reel].y = 352;
+        reels[reel].x = 82 + (reel * 100);
+        reels[reel].y = 236;
 
         game.addChild(reels[reel]);
     }
@@ -56,8 +56,8 @@ function spinReels() {
         game.removeChild(reels[reel]);
 
         reels[reel] = new createjs.Bitmap("assets/images/" + spinResult[reel] + ".png");
-        reels[reel].x = 120 + (reel * 148);
-        reels[reel].y = 352;
+        reels[reel].x = 82 + (reel * 100);
+        reels[reel].y = 236;
 
         game.addChild(reels[reel]);
     }
@@ -70,22 +70,45 @@ function setReels() {
     var reelOutcome = ["", "", ""];
 
     for (var spin = 0; spin < 3; spin++) {
-        outcome[spin] = Math.floor((Math.random() * 3) + 1);
+        outcome[spin] = Math.floor((Math.random() * 65) + 1);
 
         switch (outcome[spin]) {
-            case 1:
+            case checkRange(outcome[spin], 1, 27):
                 reelOutcome[spin] = "blank";
                 break;
-            case 2:
+            case checkRange(outcome[spin], 28, 37):
+                reelOutcome[spin] = "grapes";
+                break;
+            case checkRange(outcome[spin], 38, 46):
+                reelOutcome[spin] = "banana";
+                break;
+            case checkRange(outcome[spin], 47, 54):
+                reelOutcome[spin] = "orange";
+                break;
+            case checkRange(outcome[spin], 55, 59):
+                reelOutcome[spin] = "cherry";
+                break;
+            case checkRange(outcome[spin], 60, 62):
                 reelOutcome[spin] = "bar";
                 break;
-            case 3:
+            case checkRange(outcome[spin], 63, 64):
                 reelOutcome[spin] = "bell";
+                break;
+            case checkRange(outcome[spin], 65, 65):
+                reelOutcome[spin] = "seven";
                 break;
         }
     }
 
     return reelOutcome;
+}
+
+function checkRange(spinValue, lowEnd, highEnd) {
+    if(spinValue >= lowEnd && spinValue <= highEnd) {
+        return spinValue
+    } else {
+        return !spinValue;
+    }
 }
 
 function updateUI() {
@@ -94,7 +117,7 @@ function updateUI() {
 
     initReel();
 
-    spinButton = new objects.Button("assets/images/spin.png", 520, 590);
+    spinButton = new objects.Button("assets/images/spin.png", 368, 390);
     game.addChild(spinButton.getImage());
 
     //Set a onClick event handler for the spin button
