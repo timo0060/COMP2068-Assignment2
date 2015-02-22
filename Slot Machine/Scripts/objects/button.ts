@@ -5,16 +5,18 @@
         private _buttonImage: createjs.Bitmap;
         private _x: number;
         private _y: number;
+        private _disabled: boolean;
 
-        constructor(path: string, x: number, y: number) {
+        constructor(path: string, x: number, y: number, disabled: boolean) {
             this.setX(x);
             this.setY(y);
+            this.setDisabled(disabled);
 
             this._buttonImage = new createjs.Bitmap(path);
-            this._buttonImage.x = this._x;
-            this._buttonImage.y = this._y;
+            this._buttonImage.x = this.getX();
+            this._buttonImage.y = this.getY();
             this._buttonImage.addEventListener("mouseover", this._buttonOver);
-            this._buttonImage.addEventListener("mouseout", this._buttonOut);
+            this._buttonImage.addEventListener("mouseout", this._buttonOut);           
         }
 
         // PUBLIC PROPERTIES
@@ -27,6 +29,10 @@
             return this._x;
         }
 
+        public isDisabled(): boolean {
+            return this._disabled;
+        }
+
         public getY(): number {
             return this._y;
         }
@@ -37,6 +43,10 @@
 
         public setY(y: number) {
             this._y = y;
+        }
+
+        public setDisabled(disabled: boolean) {
+            this._disabled = disabled;
         }
 
         // EVENT HANDLERS

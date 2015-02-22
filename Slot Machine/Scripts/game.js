@@ -8,16 +8,32 @@ var background;
 var blank;
 var bell;
 var bar;
+
+//Declare buttons
 var spinButton;
+var resetButton;
+var bet1Button;
+var bet10Button;
+var bet100Button;
 
 //Declare Game Objects
 var game;
 var reels = [];
 
+//Declare game Texts
+var betText;
+var jackpotText;
+var playerCreditText;
+
 //Declare Game Variables
 var spinResult;
 var playerBet = 10;
-var playerCredit = 250;
+
+//Jackpot will start at 500
+var jackpot = 500;
+
+//Player will start with 250 credits
+var playerCredit = 10;
 
 function init() {
     canvas = document.getElementById("canvas");
@@ -52,13 +68,13 @@ function checkForWinnings(spinResult) {
     var winnings = 0;
 
     //Reel face variables
-    var grape = 0;
-    var banana = 0;
-    var orange = 0;
-    var cherries = 0;
-    var bar = 0;
-    var bell = 0;
-    var seven = 0;
+    var imperial = 0;
+    var rebel = 0;
+    var tiefighter = 0;
+    var xwing = 0;
+    var falcon = 0;
+    var vader = 0;
+    var yoda = 0;
 
     for (var reel = 0; reel < 3; reel++) {
         if (spinResult[reel] == "blank") {
@@ -70,65 +86,65 @@ function checkForWinnings(spinResult) {
     if (!blanks) {
         for (var reel = 0; reel < 3; reel++) {
             switch (spinResult[reel]) {
-                case "grape":
-                    grape++;
+                case "imperial":
+                    imperial++;
                     break;
-                case "banana":
-                    banana++;
+                case "rebel":
+                    rebel++;
                     break;
-                case "orange":
-                    orange++;
+                case "tiefighter":
+                    tiefighter++;
                     break;
-                case "cherry":
-                    cherries++;
+                case "xwing":
+                    xwing++;
                     break;
-                case "bar":
-                    bar++;
+                case "falcon":
+                    falcon++;
                     break;
-                case "bell":
-                    bell++;
+                case "vader":
+                    vader++;
                     break;
-                case "seven":
-                    seven++;
+                case "yoda":
+                    yoda++;
                     break;
             }
         }
 
         //Set the winnings (Lots of if and else if statements ahead... Reader beware)
-        if (seven == 3) {
+        if (yoda == 3) {
             winnings = playerBet * 100; //Change this to jackpot later once it's implemented
-        } else if (bell == 3) {
+        } else if (vader == 3) {
             winnings = playerBet * 75;
-        } else if (bar == 3) {
+        } else if (falcon == 3) {
             winnings = playerBet * 50;
-        } else if (cherries == 3) {
+        } else if (xwing == 3) {
             winnings = playerBet * 40;
-        } else if (orange == 3) {
+        } else if (tiefighter == 3) {
             winnings = playerBet * 30;
-        } else if (banana == 3) {
+        } else if (rebel == 3) {
             winnings = playerBet * 20;
-        } else if (grape == 3) {
+        } else if (imperial == 3) {
             winnings = playerBet * 10;
-        } else if (seven == 2) {
+        } else if (yoda == 2) {
             winnings = playerBet * 20;
-        } else if (bell == 2) {
+        } else if (vader == 2) {
             winnings = playerBet * 10;
-        } else if (bar == 2) {
+        } else if (falcon == 2) {
             winnings = playerBet * 5;
-        } else if (cherries == 2) {
+        } else if (xwing == 2) {
             winnings = playerBet * 4;
-        } else if (orange == 2) {
+        } else if (tiefighter == 2) {
             winnings = playerBet * 3;
-        } else if (banana == 2) {
+        } else if (rebel == 2) {
             winnings = playerBet * 2;
-        } else if (grape == 2) {
+        } else if (imperial == 2) {
             winnings = playerBet * 2;
         } else {
             winnings = playerBet;
         }
 
         //If player gets a 7, they will automatically get this reward
-        if (seven == 1) {
+        if (yoda == 1) {
             winnings = playerBet * 5;
         }
     } else {
@@ -136,23 +152,62 @@ function checkForWinnings(spinResult) {
         winnings = playerBet * -1;
     }
 
+    playerCredit += winnings;
+
     console.log("You won: " + winnings);
 }
 
 function spinReels() {
-    spinResult = setReels();
+    if (!spinButton.isDisabled()) {
+        spinResult = setReels();
 
-    checkForWinnings(spinResult);
+        checkForWinnings(spinResult);
 
-    for (var reel = 0; reel < 3; reel++) {
-        game.removeChild(reels[reel]);
+        for (var reel = 0; reel < 3; reel++) {
+            game.removeChild(reels[reel]);
 
-        reels[reel] = new createjs.Bitmap("assets/images/" + spinResult[reel] + ".png");
-        reels[reel].x = 82 + (reel * 100);
-        reels[reel].y = 236;
+            reels[reel] = new createjs.Bitmap("assets/images/" + spinResult[reel] + ".png");
+            reels[reel].x = 82 + (reel * 100);
+            reels[reel].y = 236;
 
-        game.addChild(reels[reel]);
+            game.addChild(reels[reel]);
+        }
+
+        jackpot += playerBet;
     }
+
+    updateText();
+}
+
+function updateText() {
+    //update the Jackpot text variable
+    jackpotText.text = "" + jackpot;
+
+    //Remove the current jackpotText child
+    game.removeChild(jackpotText);
+
+    //Add the updated jackpotText
+    game.addChild(jackpotText);
+
+    //If player's credit is 0, set the spin button to be disabled
+    if (playerCredit <= 0) {
+        playerCredit = 0;
+        spinButton.setDisabled(true);
+    }
+
+    //Update Player Credit
+    playerCreditText.text = "" + playerCredit;
+
+    //Remove current child
+    game.removeChild(playerCreditText);
+
+    //Add the updated text back in
+    game.addChild(playerCreditText);
+
+    //Update Players Bet Text
+    betText.text = "" + playerBet;
+    game.removeChild(betText);
+    game.addChild(betText);
 }
 
 function setReels() {
@@ -164,28 +219,28 @@ function setReels() {
 
         switch (outcome[spin]) {
             case checkRange(outcome[spin], 1, 27):
-                reelOutcome[spin] = "blank";
+                reelOutcome[spin] = "star";
                 break;
             case checkRange(outcome[spin], 28, 37):
-                reelOutcome[spin] = "grapes";
+                reelOutcome[spin] = "imperial";
                 break;
             case checkRange(outcome[spin], 38, 46):
-                reelOutcome[spin] = "banana";
+                reelOutcome[spin] = "rebel";
                 break;
             case checkRange(outcome[spin], 47, 54):
-                reelOutcome[spin] = "orange";
+                reelOutcome[spin] = "tiefighter";
                 break;
             case checkRange(outcome[spin], 55, 59):
-                reelOutcome[spin] = "cherry";
+                reelOutcome[spin] = "xwing";
                 break;
             case checkRange(outcome[spin], 60, 62):
-                reelOutcome[spin] = "bar";
+                reelOutcome[spin] = "falcon";
                 break;
             case checkRange(outcome[spin], 63, 64):
-                reelOutcome[spin] = "bell";
+                reelOutcome[spin] = "vader";
                 break;
             case checkRange(outcome[spin], 65, 65):
-                reelOutcome[spin] = "seven";
+                reelOutcome[spin] = "yoda";
                 break;
         }
     }
@@ -201,17 +256,85 @@ function checkRange(spinValue, lowEnd, highEnd) {
     }
 }
 
+function resetGame() {
+    playerBet = 10;
+    playerCredit = 250;
+    jackpot = 500;
+
+    updateText();
+
+    spinButton.setDisabled(false);
+
+    console.log("reset pressed");
+}
+
+function bet1() {
+    playerBet = 1;
+    updateText();
+}
+
+function bet10() {
+    playerBet = 10;
+    updateText();
+}
+
+function bet100() {
+    playerBet = 100;
+    updateText();
+}
+
 function updateUI() {
     background = new createjs.Bitmap("assets/images/Slot-machine.png");
     game.addChild(background);
 
     initReel();
 
-    spinButton = new objects.Button("assets/images/spin.png", 368, 390);
+    //Initiate the buttons
+    spinButton = new objects.Button("assets/images/spin.png", 368, 390, false);
     game.addChild(spinButton.getImage());
+
+    resetButton = new objects.Button("assets/images/reset.png", 30, 390, false);
+    game.addChild(resetButton.getImage());
 
     //Set a onClick event handler for the spin button
     spinButton.getImage().addEventListener("click", spinReels);
+
+    //Add an onClick event handler for the rest button
+    resetButton.getImage().addEventListener("click", resetGame);
+
+    //Set Jackpot text
+    jackpotText = new createjs.Text("" + jackpot, "20px Arial", "#298A91");
+    jackpotText.x = 218;
+    jackpotText.y = 115;
+    jackpotText.textBaseline = "alphabetic";
+    game.addChild(jackpotText);
+
+    //Set player Credit Text
+    playerCreditText = new createjs.Text("" + playerCredit, "20px Arial", "#298A91");
+    playerCreditText.x = 310;
+    playerCreditText.y = 470;
+    game.addChild(playerCreditText);
+
+    //Set Player bet Text
+    betText = new createjs.Text("" + playerBet, "20px Arial", "#298A91");
+    betText.x = 230;
+    betText.y = 470;
+    game.addChild(betText);
+
+    //Set up the Betting Buttons
+    bet1Button = new objects.Button("assets/images/bet1.png", 60, 432, false);
+    bet10Button = new objects.Button("assets/images/bet10.png", 100, 432, false);
+    bet100Button = new objects.Button("assets/images/bet100.png", 140, 432, false);
+
+    //Add bet buttons
+    game.addChild(bet100Button.getImage());
+    game.addChild(bet10Button.getImage());
+    game.addChild(bet1Button.getImage());
+
+    //Add functions to the Bet Buttons
+    bet100Button.getImage().addEventListener("click", bet100);
+    bet10Button.getImage().addEventListener("click", bet10);
+    bet1Button.getImage().addEventListener("click", bet1);
 }
 
 function main() {

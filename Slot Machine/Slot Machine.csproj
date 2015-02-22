@@ -67,16 +67,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\images\banana.png" />
-    <Content Include="assets\images\bar.png" />
-    <Content Include="assets\images\bell.png" />
-    <Content Include="assets\images\blank.png" />
-    <Content Include="assets\images\cherry.png" />
-    <Content Include="assets\images\grapes.png" />
-    <Content Include="assets\images\orange.png" />
-    <Content Include="assets\images\seven.png" />
+    <Content Include="assets\images\bet1.png" />
+    <Content Include="assets\images\bet10.png" />
+    <Content Include="assets\images\bet100.png" />
+    <Content Include="assets\images\falcon.png" />
+    <Content Include="assets\images\imperial.png" />
+    <Content Include="assets\images\rebel.png" />
+    <Content Include="assets\images\reset.png" />
     <Content Include="assets\images\Slot-Machine.png" />
     <Content Include="assets\images\spin.png" />
+    <Content Include="assets\images\spin_disabled.png" />
+    <Content Include="assets\images\star.png" />
+    <Content Include="assets\images\tiefighter.png" />
+    <Content Include="assets\images\vader.png" />
+    <Content Include="assets\images\xwing.png" />
+    <Content Include="assets\images\yoda.png" />
     <Content Include="css\game.css" />
     <Content Include="index.html" />
     <Content Include="Scripts\lib\easeljs-0.8.0.min.js" />
