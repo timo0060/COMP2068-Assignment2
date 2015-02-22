@@ -1,22 +1,18 @@
 ﻿/// <reference path="objects/Button.ts" />
-
-
 //Declare the Canvas and stage
 var canvas;
 var stage;
 
 //Declare bitmaps
-var background: createjs.Bitmap;
-var blank: createjs.Bitmap;
-var bell: createjs.Bitmap;
-var bar: createjs.Bitmap;
-var spinButton: objects.Button;
+var background;
+var blank;
+var bell;
+var bar;
+var spinButton;
 
 //Declare Game Objects
 var game;
-var reels: createjs.Bitmap[] = [];
-
-//Declare game Texts
+var reels = [];
 
 //Declare Game Variables
 var spinResult;
@@ -45,7 +41,6 @@ function initReel() {
 
         game.addChild(reels[reel]);
     }
-
 }
 
 function gameLoop() {
@@ -65,9 +60,7 @@ function checkForWinnings(spinResult) {
     var bell = 0;
     var seven = 0;
 
-    //Check to see if there are any blanks in the result
     for (var reel = 0; reel < 3; reel++) {
-
         if (spinResult[reel] == "blank") {
             blanks = true;
         }
@@ -75,8 +68,6 @@ function checkForWinnings(spinResult) {
 
     //If there are not any blanks, count how many of each reel face appeared and calculate the winnings
     if (!blanks) {
-
-        //Cycle through the results and sperate the values into a tally
         for (var reel = 0; reel < 3; reel++) {
             switch (spinResult[reel]) {
                 case "grape":
@@ -109,29 +100,29 @@ function checkForWinnings(spinResult) {
         } else if (bell == 3) {
             winnings = playerBet * 75;
         } else if (bar == 3) {
-            winnings = playerBet * 50
+            winnings = playerBet * 50;
         } else if (cherries == 3) {
-            winnings = playerBet * 40
+            winnings = playerBet * 40;
         } else if (orange == 3) {
-            winnings = playerBet * 30
+            winnings = playerBet * 30;
         } else if (banana == 3) {
-            winnings = playerBet * 20
+            winnings = playerBet * 20;
         } else if (grape == 3) {
-            winnings = playerBet * 10
+            winnings = playerBet * 10;
         } else if (seven == 2) {
-            winnings = playerBet * 20
+            winnings = playerBet * 20;
         } else if (bell == 2) {
-            winnings = playerBet * 10
+            winnings = playerBet * 10;
         } else if (bar == 2) {
-            winnings = playerBet * 5
+            winnings = playerBet * 5;
         } else if (cherries == 2) {
-            winnings = playerBet * 4
+            winnings = playerBet * 4;
         } else if (orange == 2) {
-            winnings = playerBet * 3
+            winnings = playerBet * 3;
         } else if (banana == 2) {
-            winnings = playerBet * 2
+            winnings = playerBet * 2;
         } else if (grape == 2) {
-            winnings = playerBet * 2
+            winnings = playerBet * 2;
         } else {
             winnings = playerBet;
         }
@@ -140,9 +131,6 @@ function checkForWinnings(spinResult) {
         if (seven == 1) {
             winnings = playerBet * 5;
         }
-
-        
-
     } else {
         //If there are blanks, winnings are equal to the bet, so the player losses money
         winnings = playerBet * -1;
@@ -165,8 +153,6 @@ function spinReels() {
 
         game.addChild(reels[reel]);
     }
-
-
 }
 
 function setReels() {
@@ -208,8 +194,8 @@ function setReels() {
 }
 
 function checkRange(spinValue, lowEnd, highEnd) {
-    if(spinValue >= lowEnd && spinValue <= highEnd) {
-        return spinValue
+    if (spinValue >= lowEnd && spinValue <= highEnd) {
+        return spinValue;
     } else {
         return !spinValue;
     }
@@ -226,7 +212,6 @@ function updateUI() {
 
     //Set a onClick event handler for the spin button
     spinButton.getImage().addEventListener("click", spinReels);
-    
 }
 
 function main() {
@@ -238,3 +223,4 @@ function main() {
 
     stage.addChild(game);
 }
+//# sourceMappingURL=game.js.map
