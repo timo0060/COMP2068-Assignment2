@@ -119,6 +119,7 @@ function checkForWinnings(spinResult) {
         if (yoda == 3) {
             winnings = jackpot; //Player wins the jackpot!
             jackpot = 0; //Reset the jackpot to 0 now
+            alert(winnings + " credits, won you have!"); //Let the player know they won!
         } else if (vader == 3) {
             winnings = playerBet * 75;
         } else if (falcon == 3) {
@@ -290,18 +291,27 @@ function resetGame() {
 function bet1() {
     playerBet = 1;
     updateText();
+    if (playerBet > playerCredit) {
+        spinButton.setDisabled(true);
+    }
 }
 
 //Function is called when user wants to bet an admorable amount of 10 units
 function bet10() {
     playerBet = 10;
     updateText();
+    if (playerBet > playerCredit) {
+        spinButton.setDisabled(true);
+    }
 }
 
 //Function is run when user wants to gable hardcore and risk loosing 100 units, and possibly winning a trip to see Jabba
 function bet100() {
     playerBet = 100;
     updateText();
+    if (playerBet > playerCredit) {
+        spinButton.setDisabled(true);
+    }
 }
 
 //This function will quit the current tab
