@@ -6,7 +6,7 @@
         private _x: number;
         private _y: number;
         private _disabled: boolean;
-
+        //The constructor for this class
         constructor(path: string, x: number, y: number, disabled: boolean) {
             this.setX(x);
             this.setY(y);
@@ -45,16 +45,17 @@
             this._y = y;
         }
 
+        //Used to disable, or enable the button
         public setDisabled(disabled: boolean) {
             this._disabled = disabled;
         }
 
         // EVENT HANDLERS
-
+        //Fires when the mouse leaves a button, sets it back to a solid image
         private _buttonOut(event: createjs.MouseEvent): void {
             event.currentTarget.alpha = 1.0;
         }
-
+        //When a mouse is hovering of the button, make it shy and go half way to invisibility
         private _buttonOver(event: createjs.MouseEvent): void {
             event.currentTarget.alpha = 0.5;
         }

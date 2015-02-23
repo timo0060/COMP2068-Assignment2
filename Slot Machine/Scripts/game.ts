@@ -35,6 +35,7 @@ var jackpot = 500;
 //Player will start with 250 credits
 var playerCredit = 10;
 
+//Initialize the program and get the canvas, set the stage up, and set a timer to run at 60 FPS then call main
 function init() {
     canvas = document.getElementById("canvas");
     stage = new createjs.Stage(canvas);
@@ -45,6 +46,7 @@ function init() {
     main();
 }
 
+//Gives the wheel an intial value
 function initReel() {
     var initReelResult = setReels();
 
@@ -60,10 +62,12 @@ function initReel() {
 
 }
 
+//Update the programe every time the ticker ticks
 function gameLoop() {
     stage.update();
 }
 
+//Checks to see if the player has won anything
 function checkForWinnings(spinResult) {
     var blanks = false;
     var winnings = 0;
@@ -80,7 +84,7 @@ function checkForWinnings(spinResult) {
     //Check to see if there are any blanks in the result
     for (var reel = 0; reel < 3; reel++) {
 
-        if (spinResult[reel] == "blank") {
+        if (spinResult[reel] == "star") {
             blanks = true;
         }
     }
@@ -117,7 +121,8 @@ function checkForWinnings(spinResult) {
 
         //Set the winnings (Lots of if and else if statements ahead... Reader beware)
         if (yoda == 3) {
-            winnings = playerBet * 100; //Change this to jackpot later once it's implemented
+            winnings = jackpot; //Player wins the jackpot!
+            jackpot = 0; //Reset the jackpot to 0 now
         } else if (vader == 3) {
             winnings = playerBet * 75;
         } else if (falcon == 3) {
@@ -159,20 +164,19 @@ function checkForWinnings(spinResult) {
         //If there are blanks, winnings are equal to the bet, so the player losses money
         winnings = playerBet * -1;
     }
-
+    //The player is given what they win
     playerCredit += winnings;
-
-    console.log("You won: " + winnings);
 }
 
+//This is the function that is called everytime the player spins. It gets the values of each reel and displays the image for it
 function spinReels() {
 
     if (!spinButton.isDisabled()) {
-
+        //Get the reel values
         spinResult = setReels();
-
+        //Check to see if there's a winning combination
         checkForWinnings(spinResult);
-
+        //Go through the array, remove old children, and replace them with newer up to date ones
         for (var reel = 0; reel < 3; reel++) {
             game.removeChild(reels[reel]);
 
@@ -182,14 +186,15 @@ function spinReels() {
 
             game.addChild(reels[reel]);
         }
-
+        //Add the players bet onto the jackpot
         jackpot += playerBet;
     }
     
-
+    //Update the GUI text
     updateText();
 }
 
+//This function is called when the spin is over and the new information has to be displayed
 function updateText() {
     //update the Jackpot text variable
     jackpotText.text = "" + jackpot;
@@ -219,6 +224,7 @@ function updateText() {
     
 }
 
+//This function decides what will be what in terms of image. It then returns the array that holds the names of the images
 function setReels() {
     var outcome = [0, 0, 0];
     var reelOutcome = ["", "", ""];
@@ -257,6 +263,7 @@ function setReels() {
     return reelOutcome;
 }
 
+//This function is used to check to see if the number is between two other numbers, to see what will be shown
 function checkRange(spinValue, lowEnd, highEnd) {
     if(spinValue >= lowEnd && spinValue <= highEnd) {
         return spinValue
@@ -265,33 +272,39 @@ function checkRange(spinValue, lowEnd, highEnd) {
     }
 }
 
+//When the reset button is pressed, this function fires. It is used to reset the game to the default settings
 function resetGame() {
+    //Reset core game variables
     playerBet = 10;
     playerCredit = 250;
     jackpot = 500;
-
+    //Update the text
     updateText();
-
+    //Restart the wheel
+    initReel();
+    //Turn the spin button back to being true
     spinButton.setDisabled(false);
-
-    console.log("reset pressed");
 }
 
+//Function is called when user wants to bet a measley 1 unit
 function bet1() {
     playerBet = 1;
     updateText();
 }
 
+//Function is called when user wants to bet an admorable amount of 10 units
 function bet10() {
     playerBet = 10;
     updateText();
 }
 
+//Function is run when user wants to gable hardcore and risk loosing 100 units, and possibly winning a trip to see Jabba
 function bet100() {
     playerBet = 100;
     updateText();
 }
 
+//This function is called to update the whole application and set the GUI elements, such as the background, reels, and buttons. 
 function updateUI() {
     background = new createjs.Bitmap("assets/images/Slot-machine.png");
     game.addChild(background);
@@ -344,9 +357,9 @@ function updateUI() {
     bet10Button.getImage().addEventListener("click", bet10);
     bet1Button.getImage().addEventListener("click", bet1);
 
-
 }
 
+//Create the game container and add it to the stage. Call updateUI() to make the game look prettier then just a white screen
 function main() {
     game = new createjs.Container();
     game.x = 25;
