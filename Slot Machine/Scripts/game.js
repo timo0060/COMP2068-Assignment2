@@ -15,6 +15,7 @@ var resetButton;
 var bet1Button;
 var bet10Button;
 var bet100Button;
+var quitButton;
 
 //Declare Game Objects
 var game;
@@ -33,7 +34,7 @@ var playerBet = 10;
 var jackpot = 500;
 
 //Player will start with 250 credits
-var playerCredit = 10;
+var playerCredit = 250;
 
 //Initialize the program and get the canvas, set the stage up, and set a timer to run at 60 FPS then call main
 function init() {
@@ -303,6 +304,11 @@ function bet100() {
     updateText();
 }
 
+//This function will quit the current tab
+function quit() {
+    window.close();
+}
+
 //This function is called to update the whole application and set the GUI elements, such as the background, reels, and buttons.
 function updateUI() {
     background = new createjs.Bitmap("assets/images/Slot-machine.png");
@@ -343,9 +349,9 @@ function updateUI() {
     game.addChild(betText);
 
     //Set up the Betting Buttons
-    bet1Button = new objects.Button("assets/images/bet1.png", 60, 432, false);
-    bet10Button = new objects.Button("assets/images/bet10.png", 100, 432, false);
-    bet100Button = new objects.Button("assets/images/bet100.png", 140, 432, false);
+    bet1Button = new objects.Button("assets/images/bet1.png", 80, 432, false);
+    bet10Button = new objects.Button("assets/images/bet10.png", 120, 432, false);
+    bet100Button = new objects.Button("assets/images/bet100.png", 160, 432, false);
 
     //Add bet buttons
     game.addChild(bet100Button.getImage());
@@ -356,6 +362,11 @@ function updateUI() {
     bet100Button.getImage().addEventListener("click", bet100);
     bet10Button.getImage().addEventListener("click", bet10);
     bet1Button.getImage().addEventListener("click", bet1);
+
+    //Add the quit Button with it's function
+    quitButton = new objects.Button("assets/images/quit.png", 30, 465, false);
+    game.addChild(quitButton.getImage());
+    quitButton.getImage().addEventListener("click", quit);
 }
 
 //Create the game container and add it to the stage. Call updateUI() to make the game look prettier then just a white screen

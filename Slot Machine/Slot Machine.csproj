@@ -72,6 +72,7 @@
     <Content Include="assets\images\bet100.png" />
     <Content Include="assets\images\falcon.png" />
     <Content Include="assets\images\imperial.png" />
+    <Content Include="assets\images\quit.png" />
     <Content Include="assets\images\rebel.png" />
     <Content Include="assets\images\reset.png" />
     <Content Include="assets\images\Slot-Machine.png" />
